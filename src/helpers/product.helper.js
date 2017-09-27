@@ -37,28 +37,23 @@ helper.getAll = function(call, callback){
 }
 
 helper.getBatch = function(call, callback){
-  jwt.verify(call.metadata.get('authorization')[0], process.env.JWT_SECRET, function(err, token){
+  Product.find({_id: {$in: call.request.ids} }).exec(function(err, resultProducts){
     if(err){
-      return callback({message:err},null);
+      console.log(err);
+      return callback({message:'err'}, null);
     }
-    Product.find({ owner: token.sub, _id: {$in: call.request.ids} }).exec(function(err, resultProducts){
-      if(err){
-        console.log(err);
-        return callback({message:'err'}, null);
-      }
 
-      var results = [];
-      resultProducts.forEach(function(product){
-        var formatted = {};
-        formatted._id = product._id.toString();
-        formatted.name = product.name;
-        formatted.description = product.description;
-        formatted.price = product.price;
-        results[results.length] = formatted;
-      });
+    var results = [];
+    resultProducts.forEach(function(product){
+      var formatted = {};
+      formatted._id = product._id.toString();
+      formatted.name = product.name;
+      formatted.description = product.description;
+      formatted.price = product.price;
+      results[results.length] = formatted;
+    });
 
-      return callback(null, results);
-    })
+    return callback(null, results);
   });
 }
 
