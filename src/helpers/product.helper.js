@@ -28,6 +28,7 @@ helper.getAll = function(call, callback){
         formatted.name = product.name;
         formatted.description = product.description;
         formatted.price = product.price;
+        formatted.in_stock = product.in_stock;
         results[results.length] = formatted;
       });
 
@@ -50,6 +51,7 @@ helper.getBatch = function(call, callback){
       formatted.name = product.name;
       formatted.description = product.description;
       formatted.price = product.price;
+      formatted.in_stock = product.in_stock;
       results[results.length] = formatted;
     });
 
@@ -72,6 +74,7 @@ helper.get = function(call, callback){
       formatted.name = resultProduct.name;
       formatted.description = resultProduct.description;
       formatted.price = resultProduct.price;
+      formatted.in_stock = resultProduct.in_stock;
       return callback(null, formatted);
     })
   });

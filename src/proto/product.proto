@@ -26,6 +26,7 @@ message GetReply {
   string name = 2;
   string description = 3;
   double price = 4;
+  bool in_stock = 5;
 }
 
 
@@ -56,6 +57,9 @@ message CreateReply {
 message UpdateRequest {
   string _id = 1;
   string name = 2;
+  string description = 3;
+  double price = 4;
+  bool in_stock = 5;
 }
 
 message DeleteRequest{
