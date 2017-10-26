@@ -21,5 +21,6 @@ var schema = new mongoose.Schema({
 
 
 schema.set('toJSON', {getters: true, setters:true});
+schema.set('toObject', {getters: true, setters:true});
 
 module.exports = mongoose.model('Product', schema);

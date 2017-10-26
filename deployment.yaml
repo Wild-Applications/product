@@ -31,7 +31,7 @@ spec:
       containers:
       - name: product
         image: wildapplications/product:latest
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
         ports:
         - containerPort: 50051
         env:
