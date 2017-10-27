@@ -14,7 +14,8 @@ var schema = new mongoose.Schema({
   description: { type: String, required: false },
   price: {type: Number, required: true, default: 0, get: getPrice, set: setPrice},
   owner: { type : Number, required : true },
-  in_stock: { type: Boolean, required: true, default: true}
+  in_stock: { type: Boolean, required: true, default: true},
+  age_restricted: { type: Boolean, required: true, default: false}
 }, {
   timestamps: true
 });
