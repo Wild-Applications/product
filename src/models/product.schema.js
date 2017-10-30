@@ -30,6 +30,11 @@ schema.path('price').get(function(p){
   return parseFloat((p/100).toFixed(2));
 });
 
+schema.path('price').update(function(p){
+  console.log('UPDATING price ' + p + " => " + (p*100));
+  return p * 100;
+})
+
 schema.set('toJSON', {getters: true, setters:true});
 schema.set('toObject', {getters: true, setters:true});
 
