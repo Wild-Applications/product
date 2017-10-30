@@ -100,16 +100,24 @@ helper.update = function(call, callback){
     if(err){
       return callback({message:err},null);
     }
-
-    Product.findOneAndUpdate({ _id: call.request._id}, call.request, function(err, productReply){
+    Product.findOne({_id: call.request._id}, function(err, productReply){
       if(err){
-        console.log(err);
-        return callback({message:'err'}, null);
+      return callback({message:JSON.stringify({code:'', message:"Something went wrong when trying to update product"})}, null);
       }
-      var productToReturn = {};
-      productToReturn._id = productReply._id.toString();
-      return callback(null, productToReturn);
-    })
+      delete call.request._id;
+      for(var key in call.request){
+        productReply[key] = call.request[key];
+      }
+      productReply.save(function(err, saved){
+        if(err){
+          console.log(err);
+          return callback({message:'err'}, null);
+        }
+        var productToReturn = {};
+        productToReturn._id = productReply._id.toString();
+        return callback(null, productToReturn);
+      });
+    });
   });
 }
 
