@@ -86,12 +86,18 @@ helper.get = function(call, callback){
 
 helper.create = function(call, callback){
   //validation handled by database
-  var newProduct = new Product(call.request);
-  newProduct.save(function(err, result){
+  jwt.verify(call.metadata.get('authorization')[0], process.env.JWT_SECRET, function(err, token){
     if(err){
-      return callback({message:'err'},null);
+      return callback({message:err},null);
     }
-    return callback(null, {_id: result._id.toString()});
+    call.request.owner = token.sub;
+    var newProduct = new Product(call.request);
+    newProduct.save(function(err, result){
+      if(err){
+        return callback({message:'err'},null);
+      }
+      return callback(null, {_id: result._id.toString()});
+    });
   });
 }
 

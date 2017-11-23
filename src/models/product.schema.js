@@ -1,14 +1,5 @@
 var mongoose = require('mongoose');
 
-
-function setPrice(p){
-    return p * 100;
-}
-
-function getPrice(p){
-  return parseFloat((p/100).toFixed(2));
-}
-
 var schema = new mongoose.Schema({
   name : { type : String, required : true },
   description: { type: String, required: false },
@@ -21,12 +12,10 @@ var schema = new mongoose.Schema({
 });
 
 schema.path('price').set(function(p){
-  console.log('storing price ' + p + " => " + (p*100));
   return p * 100;
 });
 
 schema.path('price').get(function(p){
-  console.log('getting price ' + p + " => " + (parseFloat((p/100).toFixed(2))));
   return parseFloat((p/100).toFixed(2));
 });
 
