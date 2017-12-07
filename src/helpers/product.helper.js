@@ -14,11 +14,11 @@ helper.getAll = function(call, callback){
   //protected route so verify token;
   jwt.verify(call.metadata.get('authorization')[0], process.env.JWT_SECRET, function(err, token){
     if(err){
-      return callback({message:err},null);
+      return callback(errors['0001'],null);
     }
     Product.find({ owner: token.sub}).exec(function(err, resultProducts){
       if(err){
-        return callback({message:'err'}, null);
+        return callback(errors['0003'], null);
       }
 
       var results = [];
@@ -41,8 +41,7 @@ helper.getAll = function(call, callback){
 helper.getBatch = function(call, callback){
   Product.find({_id: {$in: call.request.ids} }).exec(function(err, resultProducts){
     if(err){
-      console.log(err);
-      return callback({message:'err'}, null);
+      return callback(errors['0003'], null);
     }
 
     var results = [];
@@ -64,11 +63,11 @@ helper.getBatch = function(call, callback){
 helper.get = function(call, callback){
   jwt.verify(call.metadata.get('authorization')[0], process.env.JWT_SECRET, function(err, token){
     if(err){
-      return callback({message:err},null);
+      return callback(errors['0001'],null);
     }
     Product.findOne({ _id: call.request._id }).exec(function(err, resultProduct){
       if(err){
-        return callback({message:'err'}, null);
+        return callback(errors['0003'], null);
       }
 
       var formatted = {};
@@ -88,13 +87,13 @@ helper.create = function(call, callback){
   //validation handled by database
   jwt.verify(call.metadata.get('authorization')[0], process.env.JWT_SECRET, function(err, token){
     if(err){
-      return callback({message:err},null);
+      return callback(errors['0001'],null);
     }
     call.request.owner = token.sub;
     var newProduct = new Product(call.request);
     newProduct.save(function(err, result){
       if(err){
-        return callback({message:'err'},null);
+        return callback(errors['0004'],null);
       }
       return callback(null, {_id: result._id.toString()});
     });
@@ -104,11 +103,11 @@ helper.create = function(call, callback){
 helper.update = function(call, callback){
   jwt.verify(call.metadata.get('authorization')[0], process.env.JWT_SECRET, function(err, token){
     if(err){
-      return callback({message:err},null);
+      return callback(errors['0001'],null);
     }
     Product.findOne({_id: call.request._id}, function(err, productReply){
       if(err){
-      return callback({message:JSON.stringify({code:'', message:"Something went wrong when trying to update product"})}, null);
+      return callback(errors['0005'], null);
       }
       delete call.request._id;
       for(var key in call.request){
@@ -116,8 +115,7 @@ helper.update = function(call, callback){
       }
       productReply.save(function(err, saved){
         if(err){
-          console.log(err);
-          return callback({message:'err'}, null);
+          return callback(errors['0005'], null);
         }
         var productToReturn = {};
         productToReturn._id = productReply._id.toString();
@@ -130,16 +128,12 @@ helper.update = function(call, callback){
 helper.delete = function(call, callback){
   jwt.verify(call.metadata.get('authorization')[0], process.env.JWT_SECRET, function(err, token){
     if(err){
-      return callback({message:err},null);
+      return callback(errors['0001'],null);
     }
-
     Product.findByIdAndRemove(call.request._id, function(err, menuReply){
       if(err){
-        console.log(err);
-
-        return callback({message:'err'}, null);
+        return callback(errors['0006'], null);
       }
-
       return callback(null, {});
     })
   });

@@ -1,0 +1,8 @@
+{
+  "0001": {"message": "Invalid permissions", "code": 401},
+  "0002": {"message": "Failed to connect to the database", "code": 500},
+  "0003": {"message": "Unable to get products", "code": 500},
+  "0004": {"message": "Unable to create new product", "code": 500},
+  "0005": {"message": "Unable to update product", "code":500},
+  "0006": {"message": "Unable to delete product", "code": 500}
+}
