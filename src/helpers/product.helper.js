@@ -1,7 +1,8 @@
 
 //imports
 var jwt = require('jsonwebtoken'),
-Product = require('../models/product.schema.js');
+Product = require('../models/product.schema.js')
+errors = require('../errors/errors.json');
 
 
 
