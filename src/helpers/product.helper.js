@@ -106,22 +106,29 @@ helper.update = function(call, callback){
     if(err){
       return callback(errors['0001'],null);
     }
-    Product.findOne({_id: call.request._id}, function(err, productReply){
+
+    var objToSave = {};
+
+    if(call.metadata.get('present')){
+      //we have been passed information about what should be updated
+      var presentString = call.metadata.get('present').toString();
+      var present = presentString.split(',');
+      for(var item in present){
+        objToSave[present[item]] = call.request[present[item]];
+      }
+    }else{
+      objToSave = call.request;
+    }
+
+    Product.findOneAndUpdate({ _id: call.request._id}, objToSave, function(err, product){
+
       if(err){
-      return callback(errors['0005'], null);
+        return callback(errors['0005'], null);
       }
-      delete call.request._id;
-      for(var key in call.request){
-        productReply[key] = call.request[key];
-      }
-      productReply.save(function(err, saved){
-        if(err){
-          return callback(errors['0005'], null);
-        }
-        var productToReturn = {};
-        productToReturn._id = productReply._id.toString();
-        return callback(null, productToReturn);
-      });
+
+      var stripProduct = {};
+      stripProduct._id = product._id.toString();
+      return callback(null, stripProduct);
     });
   });
 }
