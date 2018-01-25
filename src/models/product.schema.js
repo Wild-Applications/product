@@ -8,7 +8,8 @@ var schema = new mongoose.Schema({
   in_stock: { type: Boolean, required: true, default: true},
   age_restricted: { type: Boolean, required: true, default: false}
 }, {
-  timestamps: true
+  timestamps: true,
+  runSettersOnQuery: true
 });
 
 schema.path('price').set(function(p){
