@@ -77,7 +77,7 @@ helper.get = function(call, callback){
       formatted.description = resultProduct.description;
       formatted.price = resultProduct.price;
       formatted.in_stock = resultProduct.in_stock;
-      formatted.age_restricted = product.age_restricted;
+      formatted.age_restricted = resultProduct.age_restricted;
       return callback(null, formatted);
     })
   });
