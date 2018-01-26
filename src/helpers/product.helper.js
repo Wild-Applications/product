@@ -4,6 +4,9 @@ var jwt = require('jsonwebtoken'),
 Product = require('../models/product.schema.js')
 errors = require('../errors/errors.json');
 
+var grpc = require("grpc");
+var menuDescriptor = grpc.load(__dirname + '/../proto/menu.proto').menu;
+var menuClient = new menuDescriptor.MenuService('service.menu:1295', grpc.credentials.createInsecure());
 
 
 //var jwt = require('jsonwebtoken');
@@ -142,6 +145,10 @@ helper.delete = function(call, callback){
       if(err){
         return callback(errors['0006'], null);
       }
+
+      menuClient.removeProduct({_id: call.request._id}, function(err, response){
+
+      })
       return callback(null, {});
     })
   });
