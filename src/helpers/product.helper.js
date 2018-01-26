@@ -146,7 +146,7 @@ helper.delete = function(call, callback){
         return callback(errors['0006'], null);
       }
 
-      menuClient.removeProduct({_id: call.request._id}, function(err, response){
+      menuClient.removeProduct({_id: call.request._id}, call.metadata, function(err, response){
         return callback(null, {});
       })
 
