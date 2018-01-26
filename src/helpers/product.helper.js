@@ -147,9 +147,9 @@ helper.delete = function(call, callback){
       }
 
       menuClient.removeProduct({_id: call.request._id}, function(err, response){
-
+        return callback(null, {});
       })
-      return callback(null, {});
+
     })
   });
 }
